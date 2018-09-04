@@ -1,7 +1,6 @@
 import React from 'react';
-import Table from 'components/Table';
+import TableWrap from 'components/TableWrap';
 import HeaderContainer from 'containers/HeaderContainer';
-import CalendarContainer from '../../containers/CalendarContainer';
 
 const Layout = () => {
   return (  
@@ -9,8 +8,7 @@ const Layout = () => {
       <br />
       <HeaderContainer />
       <br />
-      <Table />
-      <CalendarContainer />
+      <TableWrap />
     </React.Fragment>
   );
 }

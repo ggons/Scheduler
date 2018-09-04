@@ -1,13 +1,13 @@
 import React from 'react';
-import { Paper, Table } from '@material-ui/core';
+import { Table } from '@material-ui/core';
 import TableHead from 'components/TableHead';
+import TableBodyContainer from 'containers/TableBodyContainer';
 
 export default () => {
   return (  
-    <Paper style={{ minHeight: 500 }}>
-      <Table>
-        <TableHead />
-      </Table>
-    </Paper>
+    <Table>
+      <TableHead />
+      <TableBodyContainer />
+    </Table>
   );
 }
