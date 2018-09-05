@@ -30,7 +30,7 @@ function renderDay({ date }) {
   return date > 9 ? date : '0' + date;
 }
 
-const TableBodyCell = ({ classes, day, onDateClick, ...rest }) => {
+const TableBodyCell = ({ classes, day, onDateClick, onScheduleClick, ...rest }) => {
   // 이전 달, 다음 달 표시 (dim)
   const exday = isExday(day) ? classes.exday : '';
 
@@ -43,11 +43,11 @@ const TableBodyCell = ({ classes, day, onDateClick, ...rest }) => {
   return (  
     <TableCell 
       className={`${classes.tableCell} ${exday} ${holiday}`} 
-      onClick={onDateClick}
+      onClick={() => onDateClick(day) }
     >
       <p className={classes.p}>
         { holidayName && <span className={classes.holidayName}>{holidayName}</span>}
-        <span>{ renderDay(day) }</span>
+        <span onClick={onScheduleClick}>{ renderDay(day) }</span>
       </p>
     </TableCell>
   );

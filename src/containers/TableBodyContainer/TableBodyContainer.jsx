@@ -2,6 +2,39 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import TableBody from 'components/TableBody';
+import ScheduleRegisterForm from 'components/ScheduleRegisterForm';
+import * as actions from 'actions';
+
+class TableBodyContainer extends Component {
+  handleDateClick = day => {
+    this.props.initScheduleForm({ title: '', startDate: '', endDate: '' });
+    this.handleOpen();
+  }
+
+  handleScheduleClick = (e) => {
+    e.stopPropagation();
+    this.handleOpen();
+  }
+
+  handleOpen = () => {
+    this.props.setScheduleModal(true);
+  }
+
+  render() { 
+    const { currentDate } = this.props;
+
+    return (  
+      <React.Fragment>
+        <TableBody 
+          dateArr={makeDateArr(currentDate)} 
+          onDateClick={this.handleDateClick}
+          onScheduleClick={this.handleScheduleClick}
+        />
+        <ScheduleRegisterForm />
+      </React.Fragment>
+    );
+  }
+}
 
 function makeDateArr(currentDate) {
   let currentMoment = moment(currentDate);
@@ -47,25 +80,9 @@ function makeDateArr(currentDate) {
   return dateArr;
 }
 
-class TableBodyContainer extends Component {
-  handleDateClick = e => {
-    // console.log(e.target);
-  }
-
-  render() { 
-    const { currentDate } = this.props;
-
-    return (  
-      <TableBody 
-        dateArr={makeDateArr(currentDate)} 
-        onDateClick={this.handleDateClick}
-      />
-    );
-  }
-}
-
 export default connect(
   state => ({
     currentDate: state.date.currentDate
-  })
+  }),
+  actions
 )(TableBodyContainer);

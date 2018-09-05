@@ -1,0 +1,41 @@
+import {
+  CHANGE_SCHEDULE_FORM,
+  INIT_SCHEDULE_FORM,
+  SET_SCHEDULE_MODAL,
+  SET_SCHEDULES,
+} from 'actions/types';
+
+const initialState = {
+  form: {
+    title: '',
+    startDate: '',
+    endDate: ''
+  },
+  open: false,
+  schedules: { }
+}
+
+export default function (state = initialState, action) {
+  switch (action.type) {
+    case CHANGE_SCHEDULE_FORM: 
+      return Object.assign({}, state, { 
+        form: { 
+          ...state.form, 
+          [action.payload.target.name]: action.payload.target.value 
+        } 
+      })
+    case INIT_SCHEDULE_FORM: 
+      return Object.assign({}, state, { 
+        form: { 
+          ...state.form, 
+          ...action.payload
+        } 
+      })
+    case SET_SCHEDULE_MODAL:
+      return Object.assign({}, state, { open: action.payload });
+    case SET_SCHEDULES:
+      return Object.assign({}, state, { schedules: action.payload });
+    default:
+      return state;
+  }
+}

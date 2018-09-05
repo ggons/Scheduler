@@ -12,7 +12,6 @@ class HeaderContainer extends Component {
 
   handleNextClick = () => {
     const { currentDate } = this.props;
-    console.log(moment(currentDate).startOf('week').format('YYYY MM DD'))
     this.props.setCurrentDate(moment(currentDate).set('date', 1).add(1, 'months'));
   }
 
