@@ -2,14 +2,21 @@ import React from 'react';
 import TableBodyCell from 'components/TableBodyCell';
 import { TableRow } from '@material-ui/core';
 
-function renderWeek(week, rest) {
-  return week.map(day => <TableBodyCell day={day} key={day.month + day.date} { ...rest } />);
+function renderWeek(weekDate, weekSchedule, rest) {
+  return weekDate.map((day, i) => 
+    <TableBodyCell 
+      day={day} 
+      scheduleList={weekSchedule[i]} 
+      key={day.month + day.date} 
+      { ...rest } 
+    />
+  );
 }
 
-const TableBodyRow = ({ week, ...rest }) => {
+const TableBodyRow = ({ weekDate, weekSchedule, ...rest }) => {
   return (  
     <TableRow>
-      { renderWeek(week, rest) }
+      { renderWeek(weekDate, weekSchedule, rest) }
     </TableRow>
   );
 }

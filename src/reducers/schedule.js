@@ -9,7 +9,9 @@ const initialState = {
   form: {
     title: '',
     startDate: '',
-    endDate: ''
+    endDate: '',
+    backgroundColor: '',
+    color: ''
   },
   open: false,
   schedules: { }
@@ -21,20 +23,15 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { 
         form: { 
           ...state.form, 
-          [action.payload.target.name]: action.payload.target.value 
+          [action.payload.name]: action.payload.value 
         } 
       })
     case INIT_SCHEDULE_FORM: 
-      return Object.assign({}, state, { 
-        form: { 
-          ...state.form, 
-          ...action.payload
-        } 
-      })
+      return Object.assign({}, state, { form: { ...state.form, ...action.payload } })
     case SET_SCHEDULE_MODAL:
       return Object.assign({}, state, { open: action.payload });
     case SET_SCHEDULES:
-      return Object.assign({}, state, { schedules: action.payload });
+      return Object.assign({}, state, { schedules: { ...action.payload } });
     default:
       return state;
   }

@@ -1,4 +1,5 @@
-const holidayKR = require('holiday-kr')
+const holidayKR = require('holiday-kr');
+const moment = require('moment');
 
 function addLeadingZero(value) {
   return (value < 10 ? '0' : '') + value
@@ -143,11 +144,158 @@ function prevMonth(year, month, day) {
   }
 }
 
+function makeWeeksData(currentDate, schedules) {
+  let currentMoment = moment(currentDate);
+
+  const thisMoment = moment(currentDate);
+  const thisYear = thisMoment.get('year');
+  const thisMonth = thisMoment.get('month') + 1;
+  const thisDayOf1Date = moment(currentDate).date(1).get('day');
+  const endDateOfThisMonth = thisMoment.daysInMonth();
+
+
+  const prevMoment = moment(currentDate).subtract(1, 'months');
+  const prevYear = prevMoment.get('year');
+  const prevMonth = prevMoment.get('month') + 1;
+  const endDateOfPrevMonth = prevMoment.daysInMonth();
+
+  const nextMoment = moment(currentDate).add(1, 'months');
+  const nextYear = nextMoment.get('year');
+  const nextMonth = nextMoment.get('month') + 1;
+
+  const totalWeek = Math.ceil((thisDayOf1Date + endDateOfPrevMonth) / 7);
+
+  const monthDate = makeMonthDate();
+
+  
+  const weeksDate = [];
+  const weeksSchedule = [];
+  const Grid = [];
+  let Cell;
+  let weekDate;
+  let weekSchedule;
+  let tmpWeekDate;
+
+  for (let i = 0; i < totalWeek; i++)
+  Grid.push(new Array(7).fill([]));
+
+  for (let i = 0; i < totalWeek; i++) {
+    weekDate = monthDate.splice(0, 7);
+    weeksDate.push(weekDate);
+
+    weekSchedule = new Array(7).fill([]);
+    weeksSchedule.push(weekSchedule);
+
+    let { year: lastDayYearOfWeek, month: lastDayMonthOfWeek, date: lastDayDateOfWeek } = weekDate[6];
+    let lastDayOfWeekStr = `${lastDayYearOfWeek}-${addLeadingZero(lastDayMonthOfWeek)}-${addLeadingZero(lastDayDateOfWeek)}`;
+    tmpWeekDate = {};
+
+    let Row = Grid[i];
+    for (let j = 0; j < 7; j++) {
+      const { year, month, date, str } = weekDate[j];
+
+      if (schedules[str]) {
+        Cell = Row[j];
+
+        // 해당 일자의 스케쥴 리스트
+        const scheduleList = schedules[str];
+        for (let schedule of scheduleList) {
+          const { startDate, endDate, vo } = schedule;
+
+          if (tmpWeekDate[vo]) continue;
+
+          let display = true;
+          let width = 1;
+          let CellSize = Cell.length;
+          let row;
+
+          if (startDate === endDate) {
+            row = Cell.findIndex(is => false);
+            row = row > -1 ? row : CellSize;
+            Cell[row] = true;
+
+            schedule.display = display;
+            schedule.width = width;
+            schedule.row = row;
+          } else {
+            let compareEndDate = moment(endDate).isBefore(moment(lastDayOfWeekStr)) ? endDate : lastDayOfWeekStr;
+            let diff = moment(compareEndDate).diff(moment([year, month - 1, date]), 'days');
+            width = diff + 1;
+
+            // row 값 계산
+            let maxCellSize = 0;
+            for (let k = j; k <= diff + j; k++) 
+              maxCellSize = Row[k].length > maxCellSize ? Row[k].length: maxCellSize;
+            
+            for (let k = 0; k < maxCellSize; k++) {
+              let isEmpty = true;
+              for (let l = j; l <= diff + j; l++) {
+                if (Row[l][k]) {
+                  isEmpty = false;
+                  break;
+                }
+              }
+
+              if (isEmpty) {
+                row = k;
+                break;
+              }
+            }
+
+            if (row === undefined) row = maxCellSize;
+
+            // Grid 에 row 값 넣기
+            for (let k = j; k <= diff + j; k++) 
+              Row[k][row] = true;
+
+            tmpWeekDate[vo] = true;
+            schedule.display = display;
+            schedule.width = width;
+            schedule.row = row;            
+          }
+        }
+
+        weekSchedule[j] = scheduleList;
+      }
+    }
+  }
+
+  function makeMonthDate() {
+    const dateArr = [];
+    for (let i = 1; i <= endDateOfThisMonth; i++) {
+      const str = `${thisYear}-${addLeadingZero(thisMonth)}-${addLeadingZero(i)}`;
+      dateArr.push({ str, year: thisYear, month: thisMonth, date: i});
+    }
+    
+    // 이번 달 1일이 월요일이 아닐 경우 (이전 달 마지막 주 정보 필요)
+    if (thisDayOf1Date > 0) {
+      for (let i = 0; i < thisDayOf1Date; i++) {
+        const str = `${prevYear}-${addLeadingZero(prevMonth)}-${addLeadingZero(endDateOfPrevMonth - i)}`;
+        dateArr.unshift({ str, year: prevYear, month: prevMonth, date: endDateOfPrevMonth - i, pm: true });
+      }
+    }
+  
+    // 이번 달 마지막이 토요일이 아닐 경우 (다음 달 첫째 주 정보 필요)
+    if (dateArr.length % 7 !== 0) {
+      const dateArrLen = dateArr.length;
+      for (let i = 0; i < 7 - (dateArrLen % 7); i++) {
+        const str = `${nextYear}-${addLeadingZero(nextMonth)}-${addLeadingZero(i + 1)}`;
+        dateArr.push({ str, year: nextYear, month: nextMonth, date: i + 1, nm: true })
+      }
+    }
+  
+    return dateArr;
+  }
+
+  return { weeksDate, weeksSchedule }
+}
+
 module.exports = {
   addLeadingZero,
   getDate,
   getDatetoString,
   getDayInfo,
   nextMonth,
-  prevMonth
+  prevMonth,
+  makeWeeksData
 }

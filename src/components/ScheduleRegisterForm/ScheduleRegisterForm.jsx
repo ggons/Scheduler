@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import MaskedInput from 'react-text-mask';
 import moment from 'moment';
-import { Typography, Input, InputLabel, FormControl, Button } from '@material-ui/core';
+import { Typography, Input, InputLabel, FormControl, Button, TextField } from '@material-ui/core';
 import Modal from 'components/common/Modal';
 import * as actions from 'actions';
+import ScheduleColors from 'components/ScheduleColors';
 
 class ScheduleRegisterForm extends Component {
   handleClose = () => {
@@ -24,7 +25,7 @@ class ScheduleRegisterForm extends Component {
     else if (!moment(endDate, 'YYYY-MM-DD').isValid()) 
       error = '종료 날짜 invalid';
     else if (moment(startDate).diff(moment(endDate)) > 0)
-      error = '종료 날짜보다 시작 날짜보다 빠릅니다.';
+      error = '종료 날짜가 시작 날짜보다 빠릅니다.';
 
     !!error && toast.error(error);
 
@@ -46,6 +47,7 @@ class ScheduleRegisterForm extends Component {
     sYear = parseInt(sYear, 10); sMonth = parseInt(sMonth, 10); sDay = parseInt(sDay, 10);
     let [eYear, eMonth, eDay] = endDate.split('-');
     eYear = parseInt(eYear, 10); eMonth = parseInt(eMonth, 10); eDay = parseInt(eDay, 10);
+    newSchedule.vo = new Date().valueOf();
 
     for (let sy = sYear; sy <= eYear; sy++) {
       let sm = sy === sYear ? sMonth : 1;
@@ -95,30 +97,29 @@ class ScheduleRegisterForm extends Component {
               autoComplete="title" 
               autoFocus 
               value={title}
-              onChange={changeScheduleForm}
+              onChange={e => changeScheduleForm(e.target)}
             />
           </FormControl>
           <FormControl margin="normal" fullWidth>
-            <Input
+            <TextField
               name="startDate"
-              type="text"
+              type="date"
               id="startDate"
               value={startDate}
-              onChange={changeScheduleForm}
-              inputComponent={TextMaskCustom}
-              placeholder="startDate"
+              onChange={e => changeScheduleForm(e.target)}
             />
           </FormControl>
           <FormControl margin="normal" fullWidth>
-            <Input
+            <TextField
               name="endDate"
-              type="text"
+              type="date"
               id="endDate"
               value={endDate}
-              onChange={changeScheduleForm}
-              inputComponent={TextMaskCustom}
-              placeholder="endDate"
+              onChange={e => changeScheduleForm(e.target)}
             />
+          </FormControl>
+          <FormControl margin="normal" fullWidth>
+            <ScheduleColors />
           </FormControl>
           <Button
             type="submit"

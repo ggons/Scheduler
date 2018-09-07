@@ -13,10 +13,10 @@ export function setCurrentDate(date) {
   }
 }
 
-export function changeScheduleForm(e) {
+export function changeScheduleForm(target) {
   return {
     type: CHANGE_SCHEDULE_FORM,
-    payload: e
+    payload: target
   }
 }
 
