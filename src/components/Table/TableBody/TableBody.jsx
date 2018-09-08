@@ -1,6 +1,6 @@
 import React from 'react';
-import { TableBody, TableRow, TableCell } from '@material-ui/core';
-import TableBodyRow from 'components/TableBodyRow';
+import { TableBody } from '@material-ui/core';
+import TableBodyRow from 'components/Table/TableBodyRow';
 
 function renderWeeks(weeksDate, weeksSchedule, rest) {
   return weeksDate.map((weekDate, i) => (

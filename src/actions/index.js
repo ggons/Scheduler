@@ -13,7 +13,7 @@ export function setCurrentDate(date) {
   }
 }
 
-export function changeScheduleForm(target) {
+export function changeForm(target) {
   return {
     type: CHANGE_SCHEDULE_FORM,
     payload: target

@@ -11,7 +11,7 @@ const initialState = {
     startDate: '',
     endDate: '',
     backgroundColor: '',
-    color: ''
+    vo: null
   },
   open: false,
   schedules: { }

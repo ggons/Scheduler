@@ -145,14 +145,11 @@ function prevMonth(year, month, day) {
 }
 
 function makeWeeksData(currentDate, schedules) {
-  let currentMoment = moment(currentDate);
-
   const thisMoment = moment(currentDate);
   const thisYear = thisMoment.get('year');
   const thisMonth = thisMoment.get('month') + 1;
   const thisDayOf1Date = moment(currentDate).date(1).get('day');
   const endDateOfThisMonth = thisMoment.daysInMonth();
-
 
   const prevMoment = moment(currentDate).subtract(1, 'months');
   const prevYear = prevMoment.get('year');
@@ -163,21 +160,22 @@ function makeWeeksData(currentDate, schedules) {
   const nextYear = nextMoment.get('year');
   const nextMonth = nextMoment.get('month') + 1;
 
-  const totalWeek = Math.ceil((thisDayOf1Date + endDateOfPrevMonth) / 7);
+  const totalWeek = Math.ceil((thisDayOf1Date + endDateOfThisMonth) / 7);
 
   const monthDate = makeMonthDate();
 
-  
   const weeksDate = [];
   const weeksSchedule = [];
   const Grid = [];
-  let Cell;
   let weekDate;
   let weekSchedule;
   let tmpWeekDate;
 
-  for (let i = 0; i < totalWeek; i++)
-  Grid.push(new Array(7).fill([]));
+  for (let i = 0; i < totalWeek; i++) {
+    Grid[i] = [];
+    for (let j = 0; j < 7; j++)
+      Grid[i][j] = [];
+  }
 
   for (let i = 0; i < totalWeek; i++) {
     weekDate = monthDate.splice(0, 7);
@@ -195,7 +193,7 @@ function makeWeeksData(currentDate, schedules) {
       const { year, month, date, str } = weekDate[j];
 
       if (schedules[str]) {
-        Cell = Row[j];
+        let Cell = Row[j];
 
         // 해당 일자의 스케쥴 리스트
         const scheduleList = schedules[str];
@@ -210,13 +208,15 @@ function makeWeeksData(currentDate, schedules) {
           let row;
 
           if (startDate === endDate) {
-            row = Cell.findIndex(is => false);
+            for (let k = 0; k < CellSize; k++) {
+              if (!Cell[k]) {
+                row = k;
+                break;
+              }
+            }
+
             row = row > -1 ? row : CellSize;
             Cell[row] = true;
-
-            schedule.display = display;
-            schedule.width = width;
-            schedule.row = row;
           } else {
             let compareEndDate = moment(endDate).isBefore(moment(lastDayOfWeekStr)) ? endDate : lastDayOfWeekStr;
             let diff = moment(compareEndDate).diff(moment([year, month - 1, date]), 'days');
@@ -245,14 +245,16 @@ function makeWeeksData(currentDate, schedules) {
             if (row === undefined) row = maxCellSize;
 
             // Grid 에 row 값 넣기
-            for (let k = j; k <= diff + j; k++) 
+            for (let k = j; k <= diff + j; k++) {
               Row[k][row] = true;
+            }
 
             tmpWeekDate[vo] = true;
-            schedule.display = display;
-            schedule.width = width;
-            schedule.row = row;            
           }
+
+          schedule.display = display;
+          schedule.width = width;
+          schedule.row = row;            
         }
 
         weekSchedule[j] = scheduleList;

@@ -1,5 +1,5 @@
 import React from 'react';
-import TableWrap from 'components/TableWrap';
+import Table from 'components/Table/Table';
 import HeaderContainer from 'containers/HeaderContainer';
 
 const Layout = () => {
@@ -8,7 +8,7 @@ const Layout = () => {
       <br />
       <HeaderContainer />
       <br />
-      <TableWrap />
+      <Table />
     </React.Fragment>
   );
 }

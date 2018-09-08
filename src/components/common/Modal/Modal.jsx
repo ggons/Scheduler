@@ -9,6 +9,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing.unit * 4,
+    borderRadius: 20,
     top: `50%`,
     left: `50%`,
     transform: `translate(-50%, -50%)`,
@@ -16,7 +17,7 @@ const styles = theme => ({
 });
 
 const SimpleModal = (props) => {
-  const { classes, open, onClose, children } = props;
+  const { classes, open, style = {}, onClose, children } = props;
 
   return (
     <Modal
@@ -25,7 +26,7 @@ const SimpleModal = (props) => {
       open={open}
       onClose={onClose}
     >
-      <div className={classes.paper}>
+      <div className={classes.paper} style={style}>
         { children }
       </div>
     </Modal>

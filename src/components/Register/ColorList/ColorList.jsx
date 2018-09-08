@@ -1,5 +1,4 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import { 
   red, 
@@ -15,8 +14,9 @@ import {
   deepOrange,
   brown,
 } from '@material-ui/core/colors';
+import ColorItem from 'components/Register/ColorItem';
 
-const colors = [ 
+const colorList = [ 
   red[500], 
   pink[500],
   deepPurple[500],
@@ -31,26 +31,21 @@ const colors = [
   brown[500],
 ];
 
-const styles = {
-  colorDiv: {
-    height: 20
-  }
-}
+const ColorList = ({ selectedColor, onColorClick }) => {
+  const colors = colorList.map(color => (
+    <ColorItem 
+      color={color}
+      selectedColor={selectedColor}
+      onColorClick={onColorClick}
+      key={color}  
+    />
+  ));
 
-const ScheduleColors = ({ classes }) => {
   return (  
     <Grid container>
-      { colors.map(color => (
-        <Grid 
-          item
-          xs={1}
-          className={classes.colorDiv}
-          style={{ backgroundColor: color }}
-          key={color}
-        ></Grid> 
-      )) }
+      { colors }
     </Grid>
   );
 }
  
-export default withStyles(styles)(ScheduleColors);
+export default ColorList;

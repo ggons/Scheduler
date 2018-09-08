@@ -1,27 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import TableBody from 'components/TableBody';
-import ScheduleRegisterForm from 'components/ScheduleRegisterForm';
-import * as actions from 'actions';
+import TableBodyContainerMethod from './TableBodyContainerMethod';
+import TableBody from 'components/Table/TableBody';
+import Register from 'components/Register/Register';
 import { makeWeeksData } from 'utils/date';
+import * as actions from 'actions';
 
-class TableBodyContainer extends Component {
-  state = {}
-
-  handleDateClick = day => {
-    this.props.initScheduleForm({ title: '', startDate: day.str, endDate: day.str });
-    this.handleOpen();
-  }
-
-  handleScheduleClick = (e) => {
-    e.stopPropagation();
-    this.handleOpen();
-  }
-
-  handleOpen = () => {
-    this.props.setScheduleModal(true);
-  }
-
+class TableBodyContainer extends TableBodyContainerMethod {
   render() { 
     const { currentDate, schedules } = this.props;
     const { weeksDate, weeksSchedule } = makeWeeksData(currentDate, schedules);
@@ -34,7 +19,7 @@ class TableBodyContainer extends Component {
           onDateClick={this.handleDateClick}
           onScheduleClick={this.handleScheduleClick}
         />
-        <ScheduleRegisterForm />
+        <Register />
       </React.Fragment>
     );
   }
