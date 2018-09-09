@@ -1,26 +1,32 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from '@material-ui/icons/Save';
 import DeleteConfirmDialog from 'components/Register/DeleteConfirmDialog';
 
-const styles = {
-  delete: {
+const styles = theme => ({
+  deleteBtn: {
     marginTop: 10
-  }
-}
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
+});
+
 
 const RegisterActions = ({ classes, vo, open, onDeleteClick, onDeleteConfirmSelect }) => {
   const deleteBtn = vo && (  
     <Button
-      className={classes.delete}
+      className={classes.deleteBtn}
       type="button"
       fullWidth
-      variant="raised"
+      variant="contained"
       color="secondary"
-      style={{ marginTop: 10 }}
       onClick={onDeleteClick}
     >
       Delete
+      <DeleteIcon className={classes.rightIcon} />
     </Button> 
   )
 
@@ -29,10 +35,11 @@ const RegisterActions = ({ classes, vo, open, onDeleteClick, onDeleteConfirmSele
       <Button
         type="submit"
         fullWidth
-        variant="raised"
+        variant="contained"
         color="primary"
       >
         Save
+        <SaveIcon className={classes.rightIcon} />
       </Button>
       { deleteBtn }
       <DeleteConfirmDialog 
