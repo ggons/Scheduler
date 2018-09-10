@@ -2,7 +2,7 @@ import { Component } from 'react';
 
 class TableBodyContainerMethod extends Component {
   handleDateClick = day => {
-    this.props.initScheduleForm({ title: '', startDate: day.str, endDate: day.str });
+    this.props.initScheduleForm({ title: '', startDate: day.str, endDate: day.str, vo: null });
     this.handleOpen();
   }
 

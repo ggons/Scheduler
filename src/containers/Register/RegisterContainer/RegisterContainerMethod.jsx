@@ -35,7 +35,6 @@ class RegisterContainerMethod extends Component {
    * Register Model 닫기
    */
   handleClose = () => {
-    this.props.initScheduleForm({ title: '', startDate: '', endDate: '', vo: null });
     this.props.setScheduleModal(false);
   }
 
