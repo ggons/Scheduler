@@ -5,10 +5,6 @@ import { withStyles } from '@material-ui/core/styles';
 import { Grid, Button } from '@material-ui/core';
 
 const styles = theme => ({
-  root: {
-    width: '100%',
-    height: '100%'
-  },
   button: {
     borderRadius: 3,
     border: 0,
@@ -29,9 +25,9 @@ const styles = theme => ({
 
 const Project = ({ classes }) => {
   return (
-    <Grid className={classes.root} container justify="center" alignItems="center">
+    <Grid container justify="center" alignItems="center">
       <Grid item>
-        <Link to="/project/list">
+        <Link to="/project/projects">
           <Button className={classNames(classes.button, classes.blueButton)}>{'Existing Projects'}</Button>
         </Link>
         <Link to="/project/new">

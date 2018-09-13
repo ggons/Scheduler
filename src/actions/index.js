@@ -3,7 +3,8 @@ import {
   CHANGE_SCHEDULE_FORM,
   INIT_SCHEDULE_FORM,
   SET_SCHEDULE_MODAL,
-  SET_SCHEDULES
+  SET_SCHEDULES,
+  ADD_PROJECT
 } from './types';
 
 export function setCurrentDate(date) {
@@ -38,5 +39,12 @@ export function setSchedules(schedules) {
   return {
     type: SET_SCHEDULES,
     payload: schedules
+  }
+}
+
+export function addProject(project) {
+  return {
+    type: ADD_PROJECT,
+    payload: project
   }
 }

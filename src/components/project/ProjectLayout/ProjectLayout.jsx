@@ -1,29 +1,37 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
+import blueGrey from '@material-ui/core/colors/blueGrey'
+import { Grid } from '@material-ui/core'
 import Project from 'components/project/Project';
-import NewProject from 'components/project/NewProject';
-import brown from '@material-ui/core/colors/brown'
+import NewProjectLayout from 'components/project/NewProjectLayout';
+import ViewProjects from 'components/project/ViewProjects';
+import AppBar from 'components/project/AppBar';
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    position: 'absolute',
-    width: '100%',
     height: '100%',
-    background: brown[50]
+    background: blueGrey[50]
+  },
+  container: {
+    height: 'calc(100vh - 64px)',
   }
 });
 
-const ProjectLayout = ({ match, classes }) => {
+const ProjectLayout = ({ history, match, classes }) => {
   return (  
     <div className={classes.root}>
-      <Switch>
-        <Route path={`${match.url}/new`} component={NewProject} />
-        <Route path={`${match.url}`} exact component={Project} />
-      </Switch>
+      <AppBar history={history} />
+      <Grid className={classes.container} container justify="center">
+        <Switch>
+          <Route path={`${match.url}/new`} component={NewProjectLayout} />
+          <Route path={`${match.url}/projects`} component={ViewProjects} />
+          <Route path={`${match.url}`} exact component={Project} />
+        </Switch>
+      </Grid>
     </div>
   );
 }
  
-export default withStyles(styles)(ProjectLayout);
+export default withStyles(styles)(ProjectLayout); 
