@@ -4,8 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import blueGrey from '@material-ui/core/colors/blueGrey'
 import { Grid } from '@material-ui/core'
 import Project from 'components/project/Project';
-import NewProjectLayout from 'components/project/NewProjectLayout';
-import ViewProjects from 'components/project/ViewProjects';
+import NewProjectContainer from 'containers/project/NewProjectContainer';
+import ViewProjectsContainer from 'containers/project/ViewProjectsContainer';
+import DetailProjectContainer from 'containers/project/DetailProjectContainer';
 import AppBar from 'components/project/AppBar';
 
 const styles = theme => ({
@@ -16,6 +17,7 @@ const styles = theme => ({
   },
   container: {
     height: 'calc(100vh - 64px)',
+    overflow: 'auto'
   }
 });
 
@@ -25,8 +27,9 @@ const ProjectLayout = ({ history, match, classes }) => {
       <AppBar history={history} />
       <Grid className={classes.container} container justify="center">
         <Switch>
-          <Route path={`${match.url}/new`} component={NewProjectLayout} />
-          <Route path={`${match.url}/projects`} component={ViewProjects} />
+          <Route path={`${match.url}/new`} component={NewProjectContainer} />
+          <Route path={`${match.url}/view/:id`} component={DetailProjectContainer} />
+          <Route path={`${match.url}/view`} render={() => <ViewProjectsContainer history={history} />} />
           <Route path={`${match.url}`} exact component={Project} />
         </Switch>
       </Grid>

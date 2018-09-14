@@ -4,7 +4,8 @@ import {
   INIT_SCHEDULE_FORM,
   SET_SCHEDULE_MODAL,
   SET_SCHEDULES,
-  ADD_PROJECT
+  ADD_PROJECT,
+  GET_PROJECT
 } from './types';
 
 export function setCurrentDate(date) {
@@ -46,5 +47,12 @@ export function addProject(project) {
   return {
     type: ADD_PROJECT,
     payload: project
+  }
+}
+
+export function getProject(id) {
+  return {
+    type: GET_PROJECT,
+    payload: id
   }
 }

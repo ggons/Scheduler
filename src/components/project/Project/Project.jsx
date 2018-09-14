@@ -27,7 +27,7 @@ const Project = ({ classes }) => {
   return (
     <Grid container justify="center" alignItems="center">
       <Grid item>
-        <Link to="/project/projects">
+        <Link to="/project/view">
           <Button className={classNames(classes.button, classes.blueButton)}>{'Existing Projects'}</Button>
         </Link>
         <Link to="/project/new">
