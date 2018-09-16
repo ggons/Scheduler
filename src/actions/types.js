@@ -10,3 +10,7 @@ export const SET_SCHEDULES = 'SET_SCHEDULES';
 // project
 export const ADD_PROJECT = 'ADD_PROJECT';
 export const GET_PROJECT = 'GET_PROJECT';
+
+// task
+export const ADD_TASK = 'ADD_TASK';
+export const CHANGE_TASK_VALUE = 'CHANGE_TASK_VALUE'; // _id, { key, value }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { LinearProgress } from '@material-ui/core';
-import DetailProjectTodos from 'components/project/DetailProjectTodos';
+import SprintBoard from 'components/sprint/SprintBoard';
 
 const styles = {
   root: {
@@ -9,21 +9,14 @@ const styles = {
   }
 }
 
-const DetailProject = ({ classes, isPending, project }) => {
+const Sprint = ({ classes, project }) => {
   return (  
     <div className={classes.root}>
-      { isPending ?
-        <LinearProgress /> : (
-          <React.Fragment>
-            <DetailProjectTodos 
-              todos={project.todos}
-            />
-            <p>{project.name}</p>
-          </React.Fragment>
-        )
-      }
+      <SprintBoard 
+        tasks={project.tasks}
+      />
     </div>
   );
 }
  
-export default withStyles(styles)(DetailProject);
+export default withStyles(styles)(Sprint);

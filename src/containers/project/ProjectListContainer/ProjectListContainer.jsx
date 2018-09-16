@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ViewProjects from 'components/project/ViewProjects';
+import ProjectList from 'components/project/ProjectList';
 
-class ViewProjectsContainer extends Component {
+class ProjectListContainer extends Component {
   state = {  }
 
-  handleProjectClick = id => {console.log(id);
-    this.props.history.push('/project/view/' + id);
+  handleProjectClick = id => {
+    this.props.history.push('/project/' + id);
   }
 
   render() { 
     const { projects } = this.props;
 
     return (  
-      <ViewProjects
+      <ProjectList
         projects={projects}
         onClick={this.handleProjectClick}
       />
@@ -25,4 +25,4 @@ export default connect(
   state => ({
     projects: state.project.projects
   })
-)(ViewProjectsContainer);
+)(ProjectListContainer);

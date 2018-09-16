@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ViewProjects = ({ projects, onClick }) => {
+const ProjectList = ({ projects, onClick }) => {
   const renderProjects = () => {
     return projects.map(project => (
       <div 
@@ -19,4 +19,4 @@ const ViewProjects = ({ projects, onClick }) => {
   );
 }
  
-export default ViewProjects;
+export default ProjectList;

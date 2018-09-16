@@ -5,7 +5,9 @@ import {
   SET_SCHEDULE_MODAL,
   SET_SCHEDULES,
   ADD_PROJECT,
-  GET_PROJECT
+  GET_PROJECT,
+  ADD_TASK,
+  CHANGE_TASK_VALUE
 } from './types';
 
 export function setCurrentDate(date) {
@@ -54,5 +56,27 @@ export function getProject(id) {
   return {
     type: GET_PROJECT,
     payload: id
+  }
+}
+
+export function addTask(name) {
+  return {
+    type: ADD_TASK,
+    payload: {
+      _id: parseInt(Math.random() * 10000, 10),
+      name: name,
+      date: 'Jul 29',
+      status: 0 // 준비, 진행중, 종료
+    }
+  }
+}
+
+export function changeTaskValue(_id, property) {
+  return {
+    type: CHANGE_TASK_VALUE,
+    payload: {
+      _id,
+      ...property
+    }
   }
 }
